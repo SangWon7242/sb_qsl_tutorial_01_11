@@ -1,0 +1,4 @@
+# DB 생성, 삭세, 선택
+CREATE DATABASE qsl;
+DROP DATABASE IF EXISTS qsl;
+USE qsl;
