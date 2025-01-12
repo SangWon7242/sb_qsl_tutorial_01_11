@@ -33,4 +33,16 @@ public class UserRepositoryImpl implements UserRepositoryCustom {
         .from(siteUser)
         .fetchOne();
   }
+
+  @Override
+  public SiteUser getQslUserOrderByIdAscOne() {
+    /*
+    SELECT *
+    FROM site_user
+    ORDER BY id ASC
+    LIMIT 1;
+    */
+
+    return null;
+  }
 }

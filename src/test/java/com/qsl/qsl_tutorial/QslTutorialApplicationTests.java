@@ -23,7 +23,6 @@ class QslTutorialApplicationTests {
 	@Autowired
 	private UserRepository userRepository;
 
-
 	@Test
 	@DisplayName("회원 생성")
 	void t1() {
@@ -72,6 +71,17 @@ class QslTutorialApplicationTests {
 		long count = userRepository.getQslCount();
 		
 		assertThat(count).isGreaterThan(0); // 회원 수가 0보다 큰지 확인
+	}
+
+	@Test
+	@DisplayName("가장 오래된 회원 1명")
+	void t5() {
+		SiteUser u1 = userRepository.getQslUserOrderByIdAscOne();
+
+		assertThat(u1.getId()).isEqualTo(1L);
+		assertThat(u1.getUsername()).isEqualTo("user1");
+		assertThat(u1.getPassword()).isEqualTo("{noop}1234");
+		assertThat(u1.getEmail()).isEqualTo("user1@test.com");
 	}
 }
 
