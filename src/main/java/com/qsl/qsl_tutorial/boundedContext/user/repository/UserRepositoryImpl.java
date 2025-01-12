@@ -24,4 +24,10 @@ public class UserRepositoryImpl implements UserRepositoryCustom {
         .where(siteUser.id.eq(id)) // WHERE id = 1
         .fetchOne(); // 단일 결과를 반환
   }
+
+  @Override
+  public long getQslCount() {
+    // SELECT COUNT(*) FROM site_user
+    return 0;
+  }
 }

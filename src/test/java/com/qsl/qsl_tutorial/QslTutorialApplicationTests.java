@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Arrays;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.atIndex;
 
 @SpringBootTest
 @Transactional // 각 테스트케이스에 전부 @Transactional을 붙인 것과 같은 효과
@@ -65,5 +66,12 @@ class QslTutorialApplicationTests {
 		assertThat(u2.getEmail()).isEqualTo("user2@test.com");
 	}
 
+	@Test
+	@DisplayName("모든 회원 수")
+	void t4() {
+		long count = userRepository.getQslCount();
+		
+		assertThat(count).isGreaterThan(0); // 회원 수가 0보다 큰지 확인
+	}
 }
 
