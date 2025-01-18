@@ -43,6 +43,10 @@ public class UserRepositoryImpl implements UserRepositoryCustom {
     LIMIT 1;
     */
 
-    return null;
+    return jpaQueryFactory
+        .selectFrom(siteUser) // SELECT * FROM site_user
+        .orderBy(siteUser.id.asc()) // ORDER BY id ASC
+        .limit(1) // LIMIT 1
+        .fetchOne(); // 단일 결과 하나를 반영
   }
 }
