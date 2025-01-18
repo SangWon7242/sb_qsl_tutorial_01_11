@@ -54,6 +54,9 @@ public class UserRepositoryImpl implements UserRepositoryCustom {
 
   @Override
   public List<SiteUser> getQslUserOrderByIdAsc() {
-    return null;
+    return jpaQueryFactory
+        .selectFrom(siteUser) // SELECT * FROM site_user
+        .orderBy(siteUser.id.asc()) // ORDER BY id ASC
+        .fetch();
   }
 }
