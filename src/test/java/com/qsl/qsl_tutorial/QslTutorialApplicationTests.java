@@ -6,12 +6,18 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.SortedMap;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.atIndex;
@@ -130,6 +136,37 @@ class QslTutorialApplicationTests {
 		assertThat(u.getUsername()).isEqualTo("user2");
 		assertThat(u.getPassword()).isEqualTo("{noop}1234");
 		assertThat(u.getEmail()).isEqualTo("user2@test.com");
+	}
+
+	@Test
+	@DisplayName("검색, Page 리턴")
+	void t8() {
+		int itemInAPage = 1; // 한 페이지에 보여줄 아이템 개수
+		List<Sort.Order> sorts = new ArrayList<>();
+		sorts.add(Sort.Order.asc("id")); // id 기준 오름차순
+		// sorts.add(Sort.Order.desc("name")) // name 기준 내림차순
+		Pageable pageable = PageRequest.of(1, itemInAPage, Sort.by(sorts)); // 한 페이지당 몇 개까지 보여질 것인가
+		Page<SiteUser> users = userRepository.searchQsl("user", pageable);
+		// 검색어 : user1
+		// 한 페이지에 나올 수 있는 아이템 개수 : 1개
+		// 정렬 : id 정순
+		// 내용 가져오는 쿼리
+		/*
+		SELECT *
+		FROM site_user
+		WHERE username LIKE '%user%'
+		OR email LIKE '%user%'
+		ORDER BY id ASC
+		LIMIT 1, 1;
+		*/
+
+		// 전체 개수를 계산하는 SQL
+		/*
+		SELECT COUNT(*)
+		FROM site_user
+		WHERE username LIKE '%user%'
+		OR email LIKE '%user%'
+		*/
 	}
 }
 

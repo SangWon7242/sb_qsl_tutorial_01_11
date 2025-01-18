@@ -3,6 +3,8 @@ package com.qsl.qsl_tutorial.boundedContext.user.repository;
 import com.qsl.qsl_tutorial.boundedContext.user.entity.SiteUser;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
@@ -69,5 +71,10 @@ public class UserRepositoryImpl implements UserRepositoryCustom {
                 .or(siteUser.email.contains(kw))
         ) // WHERE username = 'kw' // WHERE email = 'kw'
         .fetch();
+  }
+
+  @Override
+  public Page<SiteUser> searchQsl(String kw, Pageable pageable) {
+    return null;
   }
 }
