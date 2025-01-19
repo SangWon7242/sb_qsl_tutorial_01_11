@@ -1,7 +1,11 @@
 package com.qsl.qsl_tutorial.boundedContext.user.entity;
 
+import com.qsl.qsl_tutorial.boundedContext.interestKeyword.InterestKeyword;
 import jakarta.persistence.*;
 import lombok.*;
+
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Setter
@@ -22,7 +26,11 @@ public class SiteUser {
   @Column(unique = true)
   private String email;
 
+  @Builder.Default
+  @ManyToMany(cascade =  CascadeType.ALL)
+  private Set<InterestKeyword> interestKeywords = new HashSet<>();
+
   public void addInterestKeywordContent(String keywordContent) {
-    // 구현!
+    interestKeywords.add(new InterestKeyword(keywordContent));
   }
 }
