@@ -1,5 +1,7 @@
 package com.qsl.qsl_tutorial.boundedContext.user.repository;
 
+import com.qsl.qsl_tutorial.boundedContext.interestKeyword.QInterestKeyword;
+import com.qsl.qsl_tutorial.boundedContext.user.entity.QSiteUser;
 import com.qsl.qsl_tutorial.boundedContext.user.entity.SiteUser;
 import com.querydsl.core.QueryResults;
 import com.querydsl.core.types.Order;
@@ -119,9 +121,15 @@ public class UserRepositoryImpl implements UserRepositoryCustom {
 
   @Override
   public List<SiteUser> getQslUserByInterestKeyword(String keyword) {
+    QSiteUser SU = QSiteUser.siteUser; // 별칭: su
+    QInterestKeyword SUIK = QInterestKeyword.interestKeyword; // 별칭 : suik
+
     return jpaQueryFactory
-        .selectFrom(siteUser)
-        .innerJoin(siteUser.interestKeywords)
+        .selectFrom(SU) // SELECT * FROM site_user AS SU
+        .innerJoin(siteUser.interestKeywords, SUIK) // INNER JOIN site_user_interest_keywords AS SUIK
+        .where(
+            SUIK.content.eq(keyword) // WHERE SUIK.content = keyword
+        )
         .fetch();
   }
 }
