@@ -2,12 +2,17 @@ package com.qsl.qsl_tutorial.boundedContext.user.repository;
 
 import com.qsl.qsl_tutorial.boundedContext.user.entity.SiteUser;
 import com.querydsl.core.QueryResults;
+import com.querydsl.core.types.Order;
+import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.dsl.BooleanExpression;
+import com.querydsl.core.types.dsl.PathBuilder;
+import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 
 import java.util.List;
 
@@ -86,19 +91,29 @@ public class UserRepositoryImpl implements UserRepositoryCustom {
 
     // QueryDSL로 데이터 조회
     // QueryResults : 쿼리 실행 결과와 함께 페이징을 위한 추가 정보 포함
-    QueryResults<SiteUser> queryResults = jpaQueryFactory
+    JPAQuery<SiteUser> usersQuery = jpaQueryFactory
         .selectFrom(siteUser) // SELECT * FROM site_user
         .where(predicate) // WHERE username LIKE '%user%' OR email LIKE '%user%'
-        .orderBy(siteUser.id.asc()) // ORDER BY id ASC
         .offset(pageable.getOffset()) // LIMIT {1}, ? // 페이지 시작 위치
-        .limit(pageable.getPageSize()) // LIMIT ?, {1} // 페이지 크기
-        .fetchResults(); // 데이터와 총 데이터 수를 가져옴
+        .limit(pageable.getPageSize()); // LIMIT ?, {1} // 페이지 크기
+  
+    // pageable 객체에 포함된 정렬 조건(sort)을 기반으로 동적 쿼리를 추가
+    for (Sort.Order o : pageable.getSort()) {
+      // ORDER BY username
+      // ORDER BY email
+      PathBuilder pathBuilder = new PathBuilder(siteUser.getType(), siteUser.getMetadata());
+      usersQuery.orderBy(new OrderSpecifier(o.isAscending() ? Order.ASC : Order.DESC, pathBuilder.get(o.getProperty())));
+    }
 
     // 결과와 totalCount를 기반으로 Page 객체 생성
-    List<SiteUser> users = queryResults.getResults();
-    long total = queryResults.getTotal(); // 총 데이터 수
+    List<SiteUser> users = usersQuery.fetch();
+
+    JPAQuery<Long> usersCountQuery = jpaQueryFactory
+        .select(siteUser.count())
+        .from(siteUser)
+        .where(predicate);
     
     // PageImpl : 페이징 된 데이터와 메타데이터(전체 개수, 페이지 정보 등)을 포함
-    return new PageImpl<>(users, pageable, total);
+    return new PageImpl<>(users, pageable, usersCountQuery.fetchOne());
   }
 }

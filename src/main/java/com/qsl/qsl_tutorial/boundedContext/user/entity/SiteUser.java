@@ -9,6 +9,7 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+@ToString
 public class SiteUser {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)

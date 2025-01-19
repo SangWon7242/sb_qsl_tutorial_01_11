@@ -194,12 +194,12 @@ class QslTutorialApplicationTests {
 	void t9() {
 		long totalCount = userRepository.count();
 		int pageSize = 1; // 한 페이지에 보여줄 아이템 개수
-		int totalPages = (int)Math.ceil(totalCount / (double)pageSize);
+		int totalPages = (int)Math.ceil(totalCount / (double)pageSize); // 전체 페이지
 		int page = 1; // 현재 페이지 -> 2번 째 페이지를 의미
 		String kw = "user";
 
 		List<Sort.Order> sorts = new ArrayList<>();
-		sorts.add(Sort.Order.asc("id")); // id 기준 오름차순
+		sorts.add(Sort.Order.desc("id")); // id 기준 내림차순
 		Pageable pageable = PageRequest.of(page, pageSize, Sort.by(sorts)); // 한 페이지당 몇 개까지 보여질 것인가
 		Page<SiteUser> usersPage = userRepository.searchQsl(kw, pageable);
 
@@ -213,6 +213,7 @@ class QslTutorialApplicationTests {
 		// page 값이 1 == 2번째 페이지를 의미
 		// 2번째 페이지는 1번 회원이 나와야 함
 		SiteUser u = users.get(0);
+
 		assertThat(u.getId()).isEqualTo(1L);
 		assertThat(u.getUsername()).isEqualTo("user1");
 		assertThat(u.getPassword()).isEqualTo("{noop}1234");
