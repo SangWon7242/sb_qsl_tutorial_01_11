@@ -9,7 +9,6 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@ToString
 public class SiteUser {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,4 +21,8 @@ public class SiteUser {
 
   @Column(unique = true)
   private String email;
+
+  public void addInterestKeywordContent(String keywordContent) {
+    // 구현!
+  }
 }
