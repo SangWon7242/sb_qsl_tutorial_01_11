@@ -116,4 +116,9 @@ public class UserRepositoryImpl implements UserRepositoryCustom {
     // PageImpl : 페이징 된 데이터와 메타데이터(전체 개수, 페이지 정보 등)을 포함
     return new PageImpl<>(users, pageable, usersCountQuery.fetchOne());
   }
+
+  @Override
+  public List<SiteUser> getQslUserByInterestKeyword(String keyword) {
+    return null;
+  }
 }

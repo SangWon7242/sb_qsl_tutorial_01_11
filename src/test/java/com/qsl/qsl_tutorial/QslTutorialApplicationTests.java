@@ -232,12 +232,20 @@ class QslTutorialApplicationTests {
 		u2.addInterestKeywordContent("런닝");
 		
 		userRepository.save(u2);
+	}
 
-		// 문제 힌트
-		// 중복 등록은 무시
-		// 엔티티 클래스 : InterestKeyword(interest_keyword 테이블)
-		// 중간테이블도 생성되어야 함, 힌트 : @ManyToMany
-		// interest_keyword 테이블에 테니스, 오버워치, 헬스, 런닝에 해당하는 row 생성
+	@Test
+	@DisplayName("런닝에 관심이 있는 회원들 검색")
+	void t11() {
+		List<SiteUser> users = userRepository.getQslUserByInterestKeyword("런닝");
+
+		assertThat(users.size()).isEqualTo(1);
+
+		SiteUser u = users.get(0);
+		assertThat(u.getId()).isEqualTo(2L);
+		assertThat(u.getUsername()).isEqualTo("user2");
+		assertThat(u.getPassword()).isEqualTo("{noop}1234");
+		assertThat(u.getEmail()).isEqualTo("user2@test.com");
 	}
 }
 
