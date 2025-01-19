@@ -18,6 +18,7 @@ import org.springframework.data.domain.Sort;
 
 import java.util.List;
 
+import static com.qsl.qsl_tutorial.boundedContext.interestKeyword.QInterestKeyword.interestKeyword;
 import static com.qsl.qsl_tutorial.boundedContext.user.entity.QSiteUser.siteUser;
 
 @RequiredArgsConstructor
@@ -121,14 +122,11 @@ public class UserRepositoryImpl implements UserRepositoryCustom {
 
   @Override
   public List<SiteUser> getQslUserByInterestKeyword(String keyword) {
-    QSiteUser SU = QSiteUser.siteUser; // 별칭: su
-    QInterestKeyword SUIK = QInterestKeyword.interestKeyword; // 별칭 : suik
-
     return jpaQueryFactory
-        .selectFrom(SU) // SELECT * FROM site_user AS SU
-        .innerJoin(siteUser.interestKeywords, SUIK) // INNER JOIN site_user_interest_keywords AS SUIK
+        .selectFrom(siteUser) // SELECT * FROM site_user AS SU
+        .innerJoin(siteUser.interestKeywords, interestKeyword) // INNER JOIN site_user_interest_keywords AS SUIK
         .where(
-            SUIK.content.eq(keyword) // WHERE SUIK.content = keyword
+            interestKeyword.content.eq(keyword) // WHERE SUIK.content = keyword
         )
         .fetch();
   }
