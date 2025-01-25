@@ -229,7 +229,7 @@ class QslTutorialApplicationTests {
 		u2.addInterestKeywordContent("오버워치");
 		u2.addInterestKeywordContent("헬스");
 		u2.addInterestKeywordContent("런닝");
-		u2.addInterestKeywordContent("런닝");
+		u2.addInterestKeywordContent("런닝"); // 중복 된 관심사 추가 -> 데이터 반영 x
 		
 		userRepository.save(u2);
 	}
