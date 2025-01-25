@@ -17,10 +17,8 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.SortedMap;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.atIndex;
 
 @SpringBootTest
 @Transactional // 각 테스트케이스에 전부 @Transactional을 붙인 것과 같은 효과

@@ -1,9 +1,6 @@
 package com.qsl.qsl_tutorial.boundedContext.user.repository;
 
-import com.qsl.qsl_tutorial.boundedContext.interestKeyword.QInterestKeyword;
-import com.qsl.qsl_tutorial.boundedContext.user.entity.QSiteUser;
 import com.qsl.qsl_tutorial.boundedContext.user.entity.SiteUser;
-import com.querydsl.core.QueryResults;
 import com.querydsl.core.types.Order;
 import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.dsl.BooleanExpression;
@@ -18,7 +15,8 @@ import org.springframework.data.domain.Sort;
 
 import java.util.List;
 
-import static com.qsl.qsl_tutorial.boundedContext.interestKeyword.QInterestKeyword.interestKeyword;
+
+import static com.qsl.qsl_tutorial.boundedContext.interestKeyword.entity.QInterestKeyword.interestKeyword;
 import static com.qsl.qsl_tutorial.boundedContext.user.entity.QSiteUser.siteUser;
 
 @RequiredArgsConstructor

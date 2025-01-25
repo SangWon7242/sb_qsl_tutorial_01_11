@@ -8,8 +8,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 
 import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
 
 
 // @Profile({"dev", "test"}) // 개발환경과 테스트 환경에서만 실행되라!
