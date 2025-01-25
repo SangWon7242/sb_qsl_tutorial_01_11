@@ -261,5 +261,16 @@ class QslTutorialApplicationTests {
 		assertThat(u.getPassword()).isEqualTo("{noop}1234");
 		assertThat(u.getEmail()).isEqualTo("user2@test.com");
 	}
+
+	@Test
+	@DisplayName("u2=아이돌, u1=팬 u1은 u2의 팔로워이다.")
+	void t13() {
+		SiteUser u1 = userRepository.getQslUser(1L);
+		SiteUser u2 = userRepository.getQslUser(2L);
+
+		// u2 입장에서 u1은 나를 팔로우 하는 사람이다.
+		u2.addFollower(u1);
+		userRepository.save(u2);
+	}
 }
 
