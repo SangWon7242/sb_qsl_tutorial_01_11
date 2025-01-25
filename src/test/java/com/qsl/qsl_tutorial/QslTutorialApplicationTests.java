@@ -264,14 +264,19 @@ class QslTutorialApplicationTests {
 
 	@Test
 	@DisplayName("u2=유튜버, u1=구독자 u1은 u2의 유튜브를 구독한다.")
-	@Rollback(false)
 	void t13() {
 		SiteUser u1 = userRepository.getQslUser(1L);
 		SiteUser u2 = userRepository.getQslUser(2L);
 
 		u1.follow(u2); // u1은 u2를 구독한다.
+	}
 
-		userRepository.save(u2);
+	@Test
+	@DisplayName("본인이 본인을 follow 할 수 없다.")
+	void t14() {
+		SiteUser u1 = userRepository.getQslUser(1L);
+		u1.follow(u1);
+		assertThat(u1.getFollowers().size()).isEqualTo(0);
 	}
 }
 
