@@ -301,7 +301,7 @@ class QslTutorialApplicationTests {
 
 		// following
 		// u2가 구독중인 회원 : 0
-		assertThat(u1.getFollowings().size()).isEqualTo(0);
+		assertThat(u2.getFollowings().size()).isEqualTo(0);
 	}
 }
 
