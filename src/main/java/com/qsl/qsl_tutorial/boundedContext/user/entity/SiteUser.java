@@ -27,13 +27,18 @@ public class SiteUser {
   private String email;
 
   @Builder.Default
-  @ManyToMany(cascade =  CascadeType.ALL)
+  @ManyToMany(cascade = CascadeType.ALL)
   private Set<InterestKeyword> interestKeywords = new HashSet<>();
+
+  @Builder.Default
+  @ManyToMany(cascade = CascadeType.ALL)
+  private Set<SiteUser> followers = new HashSet<>();
 
   public void addInterestKeywordContent(String keywordContent) {
     interestKeywords.add(new InterestKeyword(keywordContent));
   }
 
   public void addFollower(SiteUser follower) {
+    followers.add(follower); // 현재 사용자의 팔로워 목록에 새로운 팔로워 추가
   }
 }
