@@ -132,15 +132,12 @@ public class UserRepositoryImpl implements UserRepositoryCustom {
 
   @Override
   public List<String> getKeywordContentsByFollowingOf(SiteUser user) {
-    QSiteUser siteUser2 = new QSiteUser("SiteUser2");
-
     return jpaQueryFactory
         .select(interestKeyword.content)
         .distinct()
         .from(interestKeyword)
         .innerJoin(interestKeyword.user, siteUser) // user => user_id
-        .innerJoin(siteUser.followers, siteUser2)
-        .where(siteUser2.id.eq(user.getId()))
+        .where(siteUser.followers.contains(user)) // 팔로워 관계를 바로 필터링
         .fetch();
   }
 }
