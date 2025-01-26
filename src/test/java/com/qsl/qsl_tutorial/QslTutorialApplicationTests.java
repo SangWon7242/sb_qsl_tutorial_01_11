@@ -303,13 +303,28 @@ class QslTutorialApplicationTests {
 
 	@Test
 	@DisplayName("u1은 더 이상 야구에 관심이 없습니다.")
-	@Rollback(false)
 	void t16() {
 		SiteUser u1 = userRepository.getQslUser(1L);
 
 		u1.removeInterestKeywordContent("야구");
 
 		u1.getInterestKeywords().forEach(System.out::println);
+	}
+
+	@Test
+	@DisplayName("팔로우 중인 사람들의 관심사")
+	void t17() {
+		SiteUser u = userRepository.getQslUser(8L);
+
+		List<String> keywordContents = userRepository.getKeywordContentsByFollowingOf(u);
+
+		assertThat(keywordContents.size()).isEqualTo(5);
+
+		u = userRepository.getQslUser(7L);
+
+		keywordContents = userRepository.getKeywordContentsByFollowingOf(u);
+
+		assertThat(keywordContents.size()).isEqualTo(4);
 	}
 }
 

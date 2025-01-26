@@ -1,5 +1,6 @@
 package com.qsl.qsl_tutorial.boundedContext.user.repository;
 
+import com.qsl.qsl_tutorial.boundedContext.user.entity.QSiteUser;
 import com.qsl.qsl_tutorial.boundedContext.user.entity.SiteUser;
 import com.querydsl.core.types.Order;
 import com.querydsl.core.types.OrderSpecifier;
@@ -126,6 +127,20 @@ public class UserRepositoryImpl implements UserRepositoryCustom {
         .where(
             interestKeyword.content.eq(keyword) // WHERE SUIK.content = keyword
         )
+        .fetch();
+  }
+
+  @Override
+  public List<String> getKeywordContentsByFollowingOf(SiteUser user) {
+    QSiteUser siteUser2 = new QSiteUser("SiteUser2");
+
+    return jpaQueryFactory
+        .select(interestKeyword.content)
+        .distinct()
+        .from(interestKeyword)
+        .innerJoin(interestKeyword.user, siteUser) // user => user_id
+        .innerJoin(siteUser.followers, siteUser2)
+        .where(siteUser2.id.eq(user.getId()))
         .fetch();
   }
 }
